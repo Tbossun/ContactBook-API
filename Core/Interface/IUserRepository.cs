@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DTOs.UserResponseDTOs;
 
 namespace ContactBook.Core
 {
@@ -19,6 +20,6 @@ namespace ContactBook.Core
         Task<Contact> GetUserByEmail(string email);
         IEnumerable<Contact> SearchUsers(UserActionParams userActionParams);
         Task<bool> UpdateUser(UpdateRequestDTO updateUser, string id);
-        Task<bool> UpdateAvatarUrl(string Url, string Id);
+        Task<bool> UpdateAvatarUrl(string avatarUrl, string userId);
     }
 }

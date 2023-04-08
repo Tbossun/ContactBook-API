@@ -169,7 +169,6 @@ namespace ContactBookApi.Controllers
         }
 
 
-
         /// <summary>
         /// Updates the Avatar Url of a user
         /// </summary>
@@ -182,11 +181,11 @@ namespace ContactBookApi.Controllers
         {
             try
             {
-                var upload = _imageService.ImageUploadAsync(imageDto.Image);
-                string url = upload.Result.Url.ToString();
+                var upload = await _imageService.ImageUploadAsync(imageDto.Image);
+                string url = upload.Url.ToString();
 
-                bool result = await _userRepository.UpdateAvatarUrl(url, userId);
-                if (result == true)
+                bool result = await _userRepository.UpdateAvatarUrl(url, userId); // Pass the URL and userId to UpdateAvatarUrl method
+                if (result)
                     return NoContent();
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -196,31 +195,8 @@ namespace ContactBookApi.Controllers
             }
         }
 
-        /* /// <summary>
-         /// Updates the Avatar Url of a user
-         /// </summary>
-         /// <param name="imageDto"></param>
-         /// <returns></returns>
-         [HttpPatch]
-         [Route("Photo-Upload")]
-         public async Task<IActionResult> UploadProfilePic([FromForm] ImageDto imageDto)
-         {
-             string id = HttpContext.User.FindFirst(text => text.Type == ClaimTypes.NameIdentifier).Value;
-             try
-             {
-                 var upload = _imageService.ImageUploadAsync(imageDto.Image);
-                 string url = upload.Result.Url.ToString();
 
-                 bool result = await _userRepository.UpdateAvatarUrl(url, id);
-                 if (result == true)
-                     return NoContent();
-                 return StatusCode(StatusCodes.Status500InternalServerError);
-             }
-             catch (Exception ex)
-             {
-                 return BadRequest(ex.Message);
-             }
-         }*/
+
 
         /// <summary>
         /// Removes a user from the data store using the user Id

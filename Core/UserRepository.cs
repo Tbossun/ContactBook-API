@@ -2,6 +2,7 @@
 using ContactBook.Core;
 using Core.Interface;
 using DTOs.UserRequestDTOs;
+using DTOs.UserResponseDTOs;
 using Hateoas;
 using Microsoft.AspNetCore.Identity;
 using Models;
@@ -114,8 +115,38 @@ namespace Core
             throw new ArgumentException("User does not exist");
         }
 
+        public async Task<bool> UpdateAvatarUrl(string avatarUrl, string userId)
+        {
+            Contact user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                user.AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? user.AvatarUrl : avatarUrl;
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                    return true;
+                return false;
+            }
+            throw new ArgumentException("User does not exist");
+        }
 
-        public async Task<bool> UpdateAvatarUrl(string Url, string Id)
+
+        /* public async Task<bool> UpdateAvatarUrl(ImageUploadDto imageUpload, string userId)
+         {
+             Contact user = await _userManager.FindByIdAsync(userId);
+             if (user != null)
+             {
+                 user.AvatarUrl = string.IsNullOrWhiteSpace(imageUpload.Url) ? user.AvatarUrl : imageUpload.Url;
+                 var result = await _userManager.UpdateAsync(user);
+                 if (result.Succeeded) 
+                     return true;
+                 return false;
+             }
+             throw new ArgumentException("User does not exist");
+         }*/
+
+
+
+        /*public async Task<bool> UpdateAvatarUrl(string Url, string Id)
         {
             Contact user = await _userManager.FindByIdAsync(Id);
             user.AvatarUrl = Url;
@@ -123,6 +154,6 @@ namespace Core
             if (result.Succeeded)
                 return true;
             return false;
-        }
+        }*/
     }
 }
